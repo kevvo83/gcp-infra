@@ -68,24 +68,24 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - uses: 'google-github-actions/auth@v2'
-      with:
-        credentials_json: '${{ secrets.tf_nonprod_state_sa_creds }}'
-
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform -chdir="./tf-gcp-infra" init
+      run: terraform -chdir="tf-gcp-infra" init
+      uses: 'google-github-actions/auth@v2'
+      with:
+       credentials_json: '${{ secrets.tf_nonprod_state_sa_creds }}'
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
-      run: terraform -chdir="./tf-gcp-infra" fmt -check
+      run: terraform -chdir="tf-gcp-infra" fmt -check -diff
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform -chdir="./tf-gcp-infra" plan -input=false
+      run: terraform -chdir="tf-gcp-infra" plan -input=false
 
   terraform_apply:
     name: 'Terraform Apply'
+    needs: 'terraform_init_fmt_and_plan'
     runs-on: ubuntu-latest
     environment: dev
 
@@ -101,10 +101,15 @@ jobs:
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform -chdir="./tf-gcp-infra" init
+        run: terraform -chdir="tf-gcp-infra" init
                    
+      - name: Terraform Plan
+        if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+        # run: terraform apply -auto-approve -input=false
+        run: terraform -chdir="tf-gcp-infra" plan -input=false
+
       - name: Terraform Apply
         if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
         # run: terraform apply -auto-approve -input=false
-        run: terraform -chdir="./tf-gcp-infra" plan -input=false
+        run: terraform -chdir="tf-gcp-infra" apply
 
