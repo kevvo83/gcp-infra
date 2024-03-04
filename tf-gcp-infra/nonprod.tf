@@ -1,7 +1,5 @@
 data "google_project" "nonprod_gcp_project" {
-  name       = var.project_desc
   project_id = var.project_id
-  org_id     = "0"
 }
 
 # Hub VPC
