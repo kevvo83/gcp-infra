@@ -2,6 +2,8 @@ data "google_project" "nonprod_gcp_project" {
   project_id = var.project_id
 }
 
+# TODO: Checkout VPC Routing - https://cloud.google.com/vpc/docs/routes
+
 # Hub VPC
 resource "google_compute_network" "hub-vpc" {
   name                    = "hub-vpc"
@@ -52,6 +54,7 @@ resource "google_compute_firewall" "private-subnet-firewall-rules" {
   name      = "test-firewall"
   network   = google_compute_network.spoke1-vpc.id
   direction = "INGRESS"
+  project   = data.google_project.nonprod_gcp_project.project_id
 
   allow {
     protocol = "icmp"
@@ -62,7 +65,8 @@ resource "google_compute_firewall" "private-subnet-firewall-rules" {
     ports    = ["80", "8080", "443", "22", "3389"]
   }
 
-  source_ranges = ["10.2.0.0/16"]
+  # source_ranges = ["10.2.0.0/16"]
+  source_ranges = ["0.0.0.0/0"]
 }
 
 # Cloud NAT for the private subnet outbound traffic destined for the public internet

@@ -8,7 +8,7 @@
   * No downtime for VMs in the subnet
 * Subnets can't be down-sized - only up-sized
 
-### Redundancy
+## VPC Redundancy
 
 * You have global redundancy by setting up global VPC
   * Subnets in specific regions
@@ -23,7 +23,22 @@
   * VMs without public IPs can access the public IPs of public Google Apps, APIs and services
   * This isn't the same as using Cloud NAT
 
-**TO CHECK - How can private services access Google services/apis via non-public internet?**
+**TODO - How can private services access Google services/apis via non-public internet?**
 
-**I.e. - what is the equivalent of Private Link?**
+**TODO - I.e. - what is the equivalent of Private Link?**
 
+## Cloud VPN
+
+2 types of VPN Gateways on GCP:
+* HA VPN
+* Classic VPN
+
+High level series of tasks that need to be done to enable a virtual private network between
+a GCP network and an AWS network:
+
+1. Create the HA VPN gateway and Cloud Router on Google Cloud
+2. Create an AWS Customer gateway and a Target gateway
+3. Create a VPN connection with dynamic routing on AWS
+4. Create an external VPN gateway and VPN tunnels on Google Cloud
+5. Add BGP peers to the Cloud Router
+6. Verify the configuration!
