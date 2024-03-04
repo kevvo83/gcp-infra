@@ -49,6 +49,16 @@ resource "google_compute_subnetwork" "private-subnet1" {
   project                  = data.google_project.nonprod_gcp_project.project_id
 }
 
+# Public subnet 1 in the Dev Project
+resource "google_compute_subnetwork" "public-subnet1" {
+  name                     = "public-subnet1"
+  ip_cidr_range            = "172.168.0.0/16"
+  region                   = "australia-southeast1"
+  network                  = google_compute_network.hub-vpc.id
+  private_ip_google_access = true
+  project                  = data.google_project.nonprod_gcp_project.project_id
+}
+
 # Firewall rules for the Private Subnet 1 in the Dev Project
 resource "google_compute_firewall" "private-subnet-firewall-rules" {
   name      = "test-firewall"
