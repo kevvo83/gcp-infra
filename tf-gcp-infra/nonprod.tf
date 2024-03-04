@@ -5,14 +5,14 @@ resource "google_project" "project" {
   auto_create_network = var.project_auto_create_default_network
 }
 
-resource "google_compute_network" hub-vpc {
+resource "google_compute_network" "hub-vpc" {
   name                    = "hub-vpc"
   auto_create_subnetworks = false
   routing_mode            = "GLOBAL"
   project                 = google_project.project.project_id
 }
 
-resource "google_compute_network" spoke1-vpc {
+resource "google_compute_network" "spoke1-vpc" {
   name                    = "spoke1-vpc"
   auto_create_subnetworks = false
   routing_mode            = "GLOBAL"
