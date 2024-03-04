@@ -14,6 +14,6 @@ variable "project_auto_create_default_network" {
 }
 
 variable "vpcs_list" {
-  type    = list(map(string))
+  type    = map(map(string))
   default = []
 }
