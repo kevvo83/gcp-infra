@@ -53,8 +53,26 @@ permissions:
   contents: read
 
 jobs:
-  terraform_init_fmt_and_plan:
-    name: 'Terraform Init, Format and Plan'
+  terraform_fmt:
+    name: 'Terraform Format'
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Checks that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform -chdir="tf-gcp-infra" fmt -check -diff
+
+  terraform_plan_dev:
+    name: 'Terraform Dev Plan'
     runs-on: ubuntu-latest
     environment: dev
 
@@ -78,13 +96,9 @@ jobs:
     - name: Terraform Init
       run: terraform -chdir="tf-gcp-infra" init
 
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform -chdir="tf-gcp-infra" fmt -check -diff
-
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform -chdir="tf-gcp-infra" plan -input=false
+      run: terraform -chdir="tf-gcp-infra" plan -input=false -var-file=""
 
   terraform_apply:
     name: 'Terraform Apply'
@@ -101,6 +115,12 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
+
+      # Setup the GCP Storage Account credentials
+      - name: Storage Account Credentials
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.tf_nonprod_state_sa_creds }}'
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
