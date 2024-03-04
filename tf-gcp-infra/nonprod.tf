@@ -10,4 +10,5 @@ resource "google_compute_network" "vpcs" {
   name                    = each.value.name
   auto_create_subnetworks = each.value.auto_create_subnetworks
   routing_mode            = each.value.routing_mode
+  project                 = google_project.project.project_id
 }
