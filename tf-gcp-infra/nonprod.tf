@@ -7,7 +7,7 @@ resource "google_project" "project" {
 
 resource "google_compute_network" "vpcs" {
   for_each                = var.vpcs_list
-  name                    = each.name
-  auto_create_subnetworks = each.auto_create_subnetworks
-  routing_mode            = each.routing_mode
+  name                    = each.value.name
+  auto_create_subnetworks = each.value.auto_create_subnetworks
+  routing_mode            = each.value.routing_mode
 }
