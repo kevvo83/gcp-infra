@@ -44,6 +44,7 @@ resource "google_compute_subnetwork" "private-subnet1" {
   region                   = "australia-southeast1"
   network                  = google_compute_network.spoke1-vpc.id
   private_ip_google_access = true
+  project                  = data.google_project.nonprod_gcp_project.project_id
 }
 
 # Firewall rules for the Private Subnet 1 in the Dev Project
@@ -73,6 +74,8 @@ resource "google_compute_router" "router" {
   bgp {
     asn = 64514
   }
+
+  project = data.google_project.nonprod_gcp_project.project_id
 }
 
 resource "google_compute_router_nat" "nat" {
@@ -86,6 +89,8 @@ resource "google_compute_router_nat" "nat" {
     enable = true
     filter = "ERRORS_ONLY"
   }
+
+  project = data.google_project.nonprod_gcp_project.project_id
 }
 
 # Gateway (in the hub VPC) for the inbound traffic destined for server on a private instance
