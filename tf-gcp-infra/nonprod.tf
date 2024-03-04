@@ -80,7 +80,7 @@ resource "google_compute_firewall" "private-subnet-firewall-rules" {
 }
 
 # Firewall rules for the GCP Health Check for the App Load Balancer's backend Instance Group
-resource "google_compute_firewall" "private-subnet-firewall-rules" {
+resource "google_compute_firewall" "public-subnet-firewall-rules-for-health-checks" {
   name      = "health-check-firewall"
   network   = google_compute_network.hub-vpc.id
   direction = "INGRESS"
