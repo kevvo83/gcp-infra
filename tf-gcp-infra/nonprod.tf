@@ -1,24 +1,26 @@
-resource "google_project" "project" {
-  name                = var.project_desc
-  project_id          = var.project_id
-  org_id              = "0"
-  auto_create_network = var.project_auto_create_default_network
+data "google_project" "nonprod_gcp_project" {
+  name       = var.project_desc
+  project_id = var.project_id
+  org_id     = "0"
 }
 
+# Hub VPC
 resource "google_compute_network" "hub-vpc" {
   name                    = "hub-vpc"
   auto_create_subnetworks = false
   routing_mode            = "GLOBAL"
-  project                 = google_project.project.project_id
+  project                 = data.google_project.nonprod_gcp_project.project_id
 }
 
+# Spoke VPC
 resource "google_compute_network" "spoke1-vpc" {
   name                    = "spoke1-vpc"
   auto_create_subnetworks = false
   routing_mode            = "GLOBAL"
-  project                 = google_project.project.project_id
+  project                 = data.google_project.nonprod_gcp_project.project_id
 }
 
+# Peering between Hub and Spoke
 resource "google_compute_network_peering" "peering-hub-to-spoke1" {
   name         = "peering1"
   network      = google_compute_network.hub-vpc.id
