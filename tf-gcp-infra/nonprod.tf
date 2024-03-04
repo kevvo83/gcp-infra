@@ -79,6 +79,21 @@ resource "google_compute_firewall" "private-subnet-firewall-rules" {
   source_ranges = ["0.0.0.0/0"]
 }
 
+# Firewall rules for the GCP Health Check for the App Load Balancer's backend Instance Group
+resource "google_compute_firewall" "private-subnet-firewall-rules" {
+  name      = "health-check-firewall"
+  network   = google_compute_network.hub-vpc.id
+  direction = "INGRESS"
+  project   = data.google_project.nonprod_gcp_project.project_id
+
+  allow {
+    protocol = "tcp"
+  }
+
+  # source_ranges = ["10.2.0.0/16"]
+  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
+}
+
 # Cloud NAT for the private subnet outbound traffic destined for the public internet
 resource "google_compute_router" "router" {
   name    = "my-router"
