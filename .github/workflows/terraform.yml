@@ -128,10 +128,10 @@ jobs:
         run: terraform -chdir="tf-gcp-infra" init
                    
       - name: Terraform Plan
-        if: github.ref == 'refs/heads/"main"' # && github.event_name == 'push'
+        # if: github.ref == 'refs/heads/"main"' # && github.event_name == 'push'
         run: terraform -chdir="tf-gcp-infra" plan -input=false -var-file="nonprod.tfvars"
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/"main"' # && github.event_name == 'push'
+        # if: github.ref == 'refs/heads/"main"' # && github.event_name == 'push'
         run: terraform -chdir="tf-gcp-infra" apply -auto-approve -input=false -var-file="nonprod.tfvars"
 
