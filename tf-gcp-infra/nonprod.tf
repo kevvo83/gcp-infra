@@ -12,3 +12,21 @@ resource "google_compute_network" "vpcs" {
   routing_mode            = each.value.routing_mode
   project                 = google_project.project.project_id
 }
+
+resource "google_compute_network_peering" "peering-hub-to-spoke1" {
+  name         = "peering1"
+  network      = google_compute_network.vpcs[0].id
+  peer_network = google_compute_network.vpcs[1].id
+
+  export_custom_routes = true
+  import_custom_routes = true
+}
+
+resource "google_compute_network_peering" "peering-spoke1-to-hub" {
+  name         = "peering2"
+  network      = google_compute_network.vpcs[1].id
+  peer_network = google_compute_network.vpcs[0].id
+
+  export_custom_routes = true
+  import_custom_routes = true
+}

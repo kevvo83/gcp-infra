@@ -129,9 +129,9 @@ jobs:
                    
       - name: Terraform Plan
         if: github.ref == 'refs/heads/"main"' # && github.event_name == 'push'
-        run: terraform -chdir="tf-gcp-infra" plan -input=false
+        run: terraform -chdir="tf-gcp-infra" plan -input=false -var-file="nonprod.tfvars"
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/"main"' # && github.event_name == 'push'
-        run: terraform -chdir="tf-gcp-infra" apply -auto-approve -input=false
+        run: terraform -chdir="tf-gcp-infra" apply -auto-approve -input=false -var-file="nonprod.tfvars"
 
