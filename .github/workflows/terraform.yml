@@ -74,6 +74,7 @@ jobs:
   terraform_plan_dev:
     name: 'Terraform Dev Plan'
     runs-on: ubuntu-latest
+    needs: 'terraform_fmt'
     environment: dev
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -98,11 +99,11 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform -chdir="tf-gcp-infra" plan -input=false -var-file=""
+      run: terraform -chdir="tf-gcp-infra" plan -input=false -var-file="nonprod.tfvars"
 
-  terraform_apply:
+  terraform_apply_dev:
     name: 'Terraform Apply'
-    needs: 'terraform_init_fmt_and_plan'
+    needs: 'terraform_plan_dev'
     runs-on: ubuntu-latest
     environment: dev
 
