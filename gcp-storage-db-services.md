@@ -29,7 +29,14 @@ How to choose which storage service to use by use case.
 
 ### Storage classses
 
-**Durability** across ALL storage classes is 11 9's durability
+* **Durability** across ALL storage classes is 11 9's durability
+* Nearline:
+  * Access once a month or less
+* Coldline:
+  * Access once a quarter or less 
+  * Data can be restored within 3 days
+* Archive:
+  * Access once a year or less
 
 ![img.png](pngs/cloudstorage-storage-classes.png)
 
@@ -86,6 +93,7 @@ How to choose which storage service to use by use case.
   * Hardware appliance that you rack in your data center, then capture - then send data to GCP
 * Storage Transfer Service (software)
   * Import online data via this service - from S3, another bucket, web/rest - etc.
+  * Import on-premise data into bucket
 * Offline Media import (hardware)
   * Media (Tape, USB, etc) sent to a provider and then uploaded by the provider
 
@@ -115,7 +123,7 @@ How to choose which storage service to use by use case.
   * Postgres
   * MySQL
   * SQLServer
-* CloudSQL can scale up
+* CloudSQL can scale up - using bigger VMs
 * Can scale out using Read Replicas
 * Connect to CloudSQL recommendations:
   * Within GCP Project? - use private IP TLS
@@ -124,6 +132,21 @@ How to choose which storage service to use by use case.
       * Cloud SQL Auth Proxy service - needs to be setup manually on a Compute instance
       * There's a .dmg installer to use to install and run the Auth Proxy as a daemon
     * Alternatively - could even peer VPCs and access via private IP!
+* Cloud SQL data loss features:
+  * Automated backups
+  * Binary logging
+    * Allows DB to record all changes to the data
+    * Can be used for:
+      * Replication (to other dbs)
+      * Backup & Auditing
+    * Can be used to recover DB upto the last recorded transaction
+* Cloud SQL data consistency features:
+  * Semi-asynchronous replication:
+    * Commits data only after change has been replicated to at least 1 read-replica
+    * Helps with data consistency across the cluster
+* Backups are different from exports:
+  * Exports can be of tables to a bucket - and are managed by you
+  * Backups are of the entire database - and are managed by CloudSQL
 
 ## CloudSpanner
 
@@ -160,6 +183,8 @@ How to choose which storage service to use by use case.
   * Tablets are stored in FS in SSTable format
   * SSTable format provides an immutable map between keys and values
     * Keys and values are byte strings
+* Able to handle large volume of inserts - better than BigQuery in this regard
+* Able to perform anallytics on large datasets
 
 ## Memorystore for Redis
 * Redis

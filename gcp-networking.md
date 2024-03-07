@@ -52,3 +52,7 @@ a GCP network and an AWS network:
 6. Verify the configuration!
 
 ## Network Service Tiers
+# TODO: READTHIS !!!
+
+## VPC Service Controls
+# TODO: READ THIS!!!
