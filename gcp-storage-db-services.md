@@ -9,11 +9,11 @@
   * Consistency
   * Data Import services - for TBs or PBs of data
   * Access data in another project's bucket
-* Firestore (managed file system service - managed NAS)
+* Filestore (managed file system service - managed NAS)
 * CloudSQL
 * Cloud Spanner
 * AlloyDB for PostgresSQL
-* Firestore
+* Firestore (newer version of Datastore)
 * BigTable
 * Memorystore for Redis
 
@@ -98,6 +98,7 @@ How to choose which storage service to use by use case.
 
 ## Filestore
 
+* Regional service
 * Managed NAS (Network Attached Storage)
 * Backend instances are either Compute Engine or GKE
 * NFSv3 compliant
@@ -108,7 +109,12 @@ How to choose which storage service to use by use case.
 
 ## CloudSQL
 
+* Regional service
 * HA across Zones within the Region
+* Supported distributions:
+  * Postgres
+  * MySQL
+  * SQLServer
 * CloudSQL can scale up
 * Can scale out using Read Replicas
 * Connect to CloudSQL recommendations:
@@ -125,6 +131,8 @@ How to choose which storage service to use by use case.
   * Replication across Zones in the Region
   * Can choose which region to place database in
 * **Global service** - data is replicated globally across regions
+  * Global deployment is 5 9's availability
+  * Single Region deployment is 4 9's available
 * Schema and transactional (i.e. ACID) consistency
 * A pattern that's documented on GCP is MySQL migration to CloudSpanner
 * FS backed storage
@@ -139,6 +147,8 @@ How to choose which storage service to use by use case.
 * Can run in following modes:
   * Datastore mode (for backwards compatibility with older Cloud Datastore product)
   * Native mode (for modern mobile/web apps)
+* Firestore is multi-regional with 5 9's availability
+  * Single-region deployment is 4 9's availability
 
 **BIGTABLE scales UP well - FIRESTORE scales DOWN well!**
 

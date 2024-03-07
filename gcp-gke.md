@@ -10,6 +10,10 @@ kubectl config view
 # Creds and configs are in ~/.kube/ folder - in ~/.kube.config text file
 ```
 
+## GKE vs. Cloud Run
+
+Cloud Run is analogous to AWS Fargate or Azure Container Services - i.e. serverless K8s server
+
 
 ## Get `kubectl` contexts
 

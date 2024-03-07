@@ -7,6 +7,14 @@
 * Subnets can be sized up by increasing the subnet ip range
   * No downtime for VMs in the subnet
 * Subnets can't be down-sized - only up-sized
+* Compute instances can have > 1 network interface
+  * Minimum 1 network interface in a VPC
+  * Upto 8 network interfaces in different VPC networks
+  * The VPC networks MUST have a subnet in the same region as the Compute instance
+
+Use case of 1 Compute instance in different VPC networks:
+![img.png](pngs/compute-in-different-networks.png)
+
 
 ## VPC Redundancy
 
@@ -42,3 +50,5 @@ a GCP network and an AWS network:
 4. Create an external VPN gateway and VPN tunnels on Google Cloud
 5. Add BGP peers to the Cloud Router
 6. Verify the configuration!
+
+## Network Service Tiers

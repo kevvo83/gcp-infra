@@ -1,5 +1,14 @@
 # Interconnecting networks
 
+## Contents
+* Introduction to Cloud Interconnect & Peering service stack
+* Cloud VPN
+  * Cloud HA VPN topologies
+* Dedicated interconnect
+* Partner Interconnect
+* Cross-Cloud interconnect
+* Peering
+
 ## Introduction to Cloud Interconnect & Peering service stack
 
 GCP offering in the cloud interconnect & network peering space.
@@ -20,6 +29,7 @@ FYI - Layer 3 is Network Layer (IP, IPSec, ICMP protocols)
 * Cloud VPN capacity notes:
   * 1.5Gbps is for when traffic is over public internet
   * 3Gbps is for when traffic is over peering link (between 2 VPN GWs on GCP i'm guessing)
+  * Can configure multiple tunnels between VPN GWs to scale out this capacity
 
 ![img.png](pngs/interconnect-options-comparisons.png)
 
@@ -35,7 +45,7 @@ FYI - Layer 3 is Network Layer (IP, IPSec, ICMP protocols)
   * Cloud Router supports dynamic route discovery using BGP
 * ~~Cloud VPN gateways are Regional resources with regional public IPs~~
 
-## Cloud HA VPN topologies
+### Cloud HA VPN topologies
 
 1. 1 HA VPN GW to peer VPN devices (that are not HA VPNs)
    1. 1 HA VPN GW to 2 VPN devices each with 1 IP address
@@ -71,3 +81,11 @@ More topologies here - https://cloud.google.com/network-connectivity/docs/vpn/co
   * Google currently supports Amazon Web Services, Microsoft Azure, Oracle Cloud Infrastructure, and Alibaba Cloud for use with Cross-Cloud Interconnect
 * **Cross-Cloud Interconnect connections are available in two sizes: 10 Gbps or 100 Gbps**
 
+## Peering
+
+Use case for Peering:
+* 
+
+2 types:
+* Direct Peering
+* Carrier peering
